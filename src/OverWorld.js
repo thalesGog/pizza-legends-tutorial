@@ -1,37 +1,40 @@
-import DemoLower from "./images/maps/DemoLower.png";
-import Npc1 from "./images/characters/people/npc1.png";
-import GameObject from "./GameObject";
+import { SCENES } from "./constants";
+import OverWorldMap from "./OverWorldMap";
 
 class Overworld {
   constructor(config) {
     this.element = config.element;
     this.canvas = this.element.querySelector(".game-canvas");
     this.ctx = this.canvas.getContext("2d");
+    this.map = null;
+  }
+
+  startGameLoop() {
+    const step = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      // Draw Lower Layer
+      this.map.drawLowerImage(this.ctx);
+
+      // Draw Game Objects
+      Object.values(this.map.gameObjects).forEach((object) => {
+        object.x += 0.02;
+        object.sprite.draw(this.ctx);
+      });
+
+      // Draw Lower Layer
+      this.map.drawUpperImage(this.ctx);
+
+      requestAnimationFrame(() => {
+        step();
+      });
+    };
+    step();
   }
 
   init() {
-    const image = new Image();
-    image.onload = () => {
-      this.ctx.drawImage(image, 0, 0);
-    };
-    image.src = DemoLower;
-
-    // Place some Game Objects
-    const hero = new GameObject({
-      x: 5,
-      y: 6,
-    });
-
-    const npc1 = new GameObject({
-      x: 7,
-      y: 9,
-      src: Npc1,
-    });
-
-    setTimeout(() => {
-      hero.sprite.draw(this.ctx);
-      npc1.sprite.draw(this.ctx);
-    }, 200);
+    this.map = new OverWorldMap(SCENES.Kitchen);
+    this.startGameLoop();
   }
 }
 
