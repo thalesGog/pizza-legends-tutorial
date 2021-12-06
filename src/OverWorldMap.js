@@ -1,3 +1,5 @@
+import { withGrid } from "./utils";
+
 class OverWorldMap {
   constructor(config) {
     this.gameObjects = config.gameObjects;
@@ -9,12 +11,20 @@ class OverWorldMap {
     this.upperImage.src = config.upperSrc;
   }
 
-  drawLowerImage(ctx) {
-    ctx.drawImage(this.lowerImage, 0, 0);
+  drawLowerImage(ctx, cameraPerson) {
+    ctx.drawImage(
+      this.lowerImage,
+      withGrid(10.5) - cameraPerson.x,
+      withGrid(6) - cameraPerson.y
+    );
   }
 
-  drawUpperImage(ctx) {
-    ctx.drawImage(this.upperImage, 0, 0);
+  drawUpperImage(ctx, cameraPerson) {
+    ctx.drawImage(
+      this.upperImage,
+      withGrid(10.5) - cameraPerson.x,
+      withGrid(6) - cameraPerson.y
+    );
   }
 }
 
