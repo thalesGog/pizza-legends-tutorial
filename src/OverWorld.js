@@ -1,6 +1,6 @@
 import DemoLower from "./images/maps/DemoLower.png";
-import Shadow from "./images/characters/shadow.png";
-import Hero from "./images/characters/people/hero.png";
+import Npc1 from "./images/characters/people/npc1.png";
+import GameObject from "./GameObject";
 
 class Overworld {
   constructor(config) {
@@ -16,40 +16,22 @@ class Overworld {
     };
     image.src = DemoLower;
 
-    const x = 5;
-    const y = 6;
+    // Place some Game Objects
+    const hero = new GameObject({
+      x: 5,
+      y: 6,
+    });
 
-    const shadow = new Image();
-    shadow.onload = () => {
-      this.ctx.drawImage(
-        shadow,
-        0, //left cut
-        0, //top cut,
-        32, //width of cut
-        32, //height of cut
-        x * 16 - 8,
-        y * 16 - 18,
-        32,
-        32
-      );
-    };
-    shadow.src = Shadow;
+    const npc1 = new GameObject({
+      x: 7,
+      y: 9,
+      src: Npc1,
+    });
 
-    const hero = new Image();
-    hero.onload = () => {
-      this.ctx.drawImage(
-        hero,
-        0, //left cut
-        0, //top cut,
-        32, //width of cut
-        32, //height of cut
-        x * 16 - 8,
-        y * 16 - 18,
-        32,
-        32
-      );
-    };
-    hero.src = Hero;
+    setTimeout(() => {
+      hero.sprite.draw(this.ctx);
+      npc1.sprite.draw(this.ctx);
+    }, 200);
   }
 }
 
