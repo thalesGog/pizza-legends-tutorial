@@ -7,7 +7,7 @@ import Npc2 from "./images/characters/people/npc2.png";
 
 import Person from "./Person";
 
-import { withGrid } from "./utils";
+import { withGrid, asGridCoord } from "./utils";
 
 export const SCENES = {
   DemoRoom: {
@@ -24,6 +24,12 @@ export const SCENES = {
         y: withGrid(9),
         src: Npc1,
       }),
+    },
+    walls: {
+      [asGridCoord(7, 6)]: true,
+      [asGridCoord(8, 6)]: true,
+      [asGridCoord(7, 7)]: true,
+      [asGridCoord(8, 7)]: true,
     },
   },
   Kitchen: {
