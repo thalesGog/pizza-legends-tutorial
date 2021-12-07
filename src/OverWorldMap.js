@@ -1,3 +1,4 @@
+import OverWorldEvent from "./OverWorldEvent";
 import { nextPosition, withGrid } from "./utils";
 
 class OverWorldMap {
@@ -10,6 +11,8 @@ class OverWorldMap {
 
     this.upperImage = new Image();
     this.upperImage.src = config.upperSrc;
+
+    this.isCutscenePlaying = false;
   }
 
   drawLowerImage(ctx, cameraPerson) {
@@ -34,10 +37,26 @@ class OverWorldMap {
   }
 
   mountObjects() {
-    Object.values(this.gameObjects).forEach((object) => {
+    Object.keys(this.gameObjects).forEach((key) => {
+      let object = this.gameObjects[key];
+      object.id = key;
+
       //TODO: determine if this object should actually mount
       object.mount(this);
     });
+  }
+
+  async startCutscene(events) {
+    this.isCutscenePlaying = true;
+    // Start a loop of async events and await each one
+    for (let i = 0; i < events.length; i++) {
+      const eventHandler = new OverWorldEvent({
+        event: events[i],
+        map: this,
+      });
+      await eventHandler.init();
+    }
+    this.isCutscenePlaying = true;
   }
 
   addWall(x, y) {

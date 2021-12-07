@@ -23,6 +23,24 @@ export const SCENES = {
         x: withGrid(7),
         y: withGrid(9),
         src: Npc1,
+        behaviorLoop: [
+          { type: "stand", direction: "left", time: 800 },
+          { type: "stand", direction: "up", time: 800 },
+          { type: "stand", direction: "right", time: 1200 },
+          { type: "stand", direction: "up", time: 300 },
+        ],
+      }),
+      npc2: new Person({
+        x: withGrid(3),
+        y: withGrid(7),
+        src: Npc2,
+        behaviorLoop: [
+          { type: "walk", direction: "left" },
+          // { type: "stand", direction: "up", time: 800 },
+          { type: "walk", direction: "up" },
+          { type: "walk", direction: "right" },
+          { type: "walk", direction: "down" },
+        ],
       }),
     },
     walls: {

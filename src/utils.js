@@ -18,4 +18,11 @@ const nextPosition = (initialX, initialY, direction) => {
   return { x, y };
 };
 
-export { withGrid, asGridCoord, nextPosition };
+const emitEvent = (name, detail) => {
+  const event = new CustomEvent(name, {
+    detail,
+  });
+  document.dispatchEvent(event);
+};
+
+export { withGrid, asGridCoord, nextPosition, emitEvent };
