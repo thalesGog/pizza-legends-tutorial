@@ -1,5 +1,5 @@
 import Overworld from "./OverWorld";
-import "./style.css";
+import "./styles/global.css";
 
 const overworld = new Overworld({
   element: document.querySelector(".game-container"),

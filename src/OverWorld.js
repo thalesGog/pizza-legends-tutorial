@@ -1,5 +1,6 @@
 import { SCENES } from "./constants";
 import DirectionInput from "./DirectionInput";
+import KeyPressListener from "./KeyPressListener";
 import OverWorldMap from "./OverWorldMap";
 
 class Overworld {
@@ -46,21 +47,49 @@ class Overworld {
     step();
   }
 
-  init() {
-    this.map = new OverWorldMap(SCENES.DemoRoom);
+  bindActinInput() {
+    new KeyPressListener("Enter", () => {
+      // Is there a person here to talk to?
+      this.map.checkForActionCutscene();
+    });
+  }
+
+  bindHeroPositonCheck() {
+    document.addEventListener("PersonWalkingComplete", (e) => {
+      if (e.detail.whoId === "hero") {
+        // Hero's position has changed
+        this.map.checkForFootstepCutscene();
+      }
+    });
+  }
+
+  startMap(mapConfig) {
+    this.map = new OverWorldMap(mapConfig);
+    this.map.overworld = this;
     this.map.mountObjects();
+  }
+
+  init() {
+    this.startMap(SCENES.DemoRoom);
+
+    this.bindActinInput();
+    this.bindHeroPositonCheck();
+
     this.directionInput = new DirectionInput();
     this.directionInput.init();
 
     this.startGameLoop();
 
-    this.map.startCutscene([
+    /**
+     * this.map.startCutscene([
       { who: "hero", type: "walk", direction: "down" },
       { who: "hero", type: "walk", direction: "down" },
+      { who: "npc1", type: "walk", direction: "up" },
       { who: "npc1", type: "walk", direction: "left" },
-      { who: "npc1", type: "walk", direction: "left" },
-      { who: "npc1", type: "stand", direction: "up", time: 800 },
+      { who: "hero", type: "stand", direction: "right", time: 200 },
+      { type: "textMessage", text: "HELLO THERE!" },
     ]);
+     */
   }
 }
 
