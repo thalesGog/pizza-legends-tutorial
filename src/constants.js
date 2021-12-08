@@ -4,6 +4,7 @@ import KitchenLower from "./images/maps/KitchenLower.png";
 import KitchenUpper from "./images/maps/KitchenUpper.png";
 import Npc1 from "./images/characters/people/npc1.png";
 import Npc2 from "./images/characters/people/npc2.png";
+import Npc3 from "./images/characters/people/npc3.png";
 
 import Person from "./Person";
 
@@ -70,6 +71,9 @@ export const SCENES = {
           ],
         },
       ],
+      [asGridCoord(5, 10)]: [
+        { events: [{ type: "changeMap", map: "Kitchen" }] },
+      ],
     },
   },
   Kitchen: {
@@ -77,18 +81,21 @@ export const SCENES = {
     upperSrc: KitchenUpper,
     gameObjects: {
       hero: new Person({
-        x: 3,
-        y: 5,
+        isPlayerControlled: true,
+        x: withGrid(5),
+        y: withGrid(5),
       }),
-      npc1: new Person({
-        x: 9,
-        y: 6,
-        src: Npc1,
-      }),
-      npc2: new Person({
-        x: 10,
-        y: 8,
-        src: Npc2,
+      npc3: new Person({
+        x: withGrid(10),
+        y: withGrid(8),
+        src: Npc3,
+        talking: [
+          {
+            events: [
+              { type: "textMessage", text: "You made it!", faceHero: "npc3" },
+            ],
+          },
+        ],
       }),
     },
   },

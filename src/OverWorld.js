@@ -56,17 +56,21 @@ class Overworld {
 
   bindHeroPositonCheck() {
     document.addEventListener("PersonWalkingComplete", (e) => {
-      if(e.detail.whoId === "hero") {
+      if (e.detail.whoId === "hero") {
         // Hero's position has changed
-        this.map.checkForFootstepCutscene()
+        this.map.checkForFootstepCutscene();
       }
-    })
+    });
   }
 
+  startMap(mapConfig) {
+    this.map = new OverWorldMap(mapConfig);
+    this.map.overworld = this;
+    this.map.mountObjects();
+  }
 
   init() {
-    this.map = new OverWorldMap(SCENES.DemoRoom);
-    this.map.mountObjects();
+    this.startMap(SCENES.DemoRoom);
 
     this.bindActinInput();
     this.bindHeroPositonCheck();

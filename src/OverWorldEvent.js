@@ -1,3 +1,4 @@
+import { SCENES } from "./constants";
 import TextMessage from "./TextMessage";
 import { oppositeDirection } from "./utils";
 
@@ -62,6 +63,11 @@ class OverWorldEvent {
       onComplete: () => resolve(),
     });
     message.init(document.querySelector(".game-container"));
+  }
+
+  changeMap(resolve) {
+    this.map.overworld.startMap(SCENES[this.event.map]);
+    resolve();
   }
 
   init() {
