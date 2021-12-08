@@ -1,5 +1,6 @@
 import { SCENES } from "./constants";
 import DirectionInput from "./DirectionInput";
+import KeyPressListener from "./KeyPressListener";
 import OverWorldMap from "./OverWorldMap";
 
 class Overworld {
@@ -46,21 +47,34 @@ class Overworld {
     step();
   }
 
+  bindActinInput() {
+    new KeyPressListener("Enter", () => {
+      // Is there a person here to talk to?
+      this.map.checkForActionCutscene();
+    });
+  }
+
   init() {
     this.map = new OverWorldMap(SCENES.DemoRoom);
     this.map.mountObjects();
+
+    this.bindActinInput();
+
     this.directionInput = new DirectionInput();
     this.directionInput.init();
 
     this.startGameLoop();
 
-    this.map.startCutscene([
+    /**
+     * this.map.startCutscene([
       { who: "hero", type: "walk", direction: "down" },
       { who: "hero", type: "walk", direction: "down" },
+      { who: "npc1", type: "walk", direction: "up" },
       { who: "npc1", type: "walk", direction: "left" },
-      { who: "npc1", type: "walk", direction: "left" },
-      { who: "npc1", type: "stand", direction: "up", time: 800 },
+      { who: "hero", type: "stand", direction: "right", time: 200 },
+      { type: "textMessage", text: "HELLO THERE!" },
     ]);
+     */
   }
 }
 

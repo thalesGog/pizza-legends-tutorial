@@ -1,3 +1,6 @@
+import TextMessage from "./TextMessage";
+import { oppositeDirection } from "./utils";
+
 class OverWorldEvent {
   constructor({ map, event }) {
     this.map = map;
@@ -44,6 +47,21 @@ class OverWorldEvent {
     };
 
     document.addEventListener("PersonWalkingComplete", completeHandler);
+  }
+
+  textMessage(resolve) {
+    if (this.event.faceHero) {
+      const object = this.map.gameObjects[this.event.faceHero];
+      object.direction = oppositeDirection(
+        this.map.gameObjects["hero"].direction
+      );
+    }
+
+    const message = new TextMessage({
+      text: this.event.text,
+      onComplete: () => resolve(),
+    });
+    message.init(document.querySelector(".game-container"));
   }
 
   init() {

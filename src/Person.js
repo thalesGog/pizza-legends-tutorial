@@ -62,6 +62,7 @@ class Person extends GameObject {
         emitEvent("PersonStandComplete", {
           whoId: this.id,
         });
+        this.isStanding = false;
       }, behavior.time);
     }
   }

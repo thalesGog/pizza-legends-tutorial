@@ -29,6 +29,15 @@ export const SCENES = {
           { type: "stand", direction: "right", time: 1200 },
           { type: "stand", direction: "up", time: 300 },
         ],
+        talking: [
+          {
+            events: [
+              { type: "textMessage", text: "I'm busy...", faceHero: "npc1" },
+              { type: "textMessage", text: "Go away!" },
+              { who: "hero", type: "walk", direction: "up" },
+            ],
+          },
+        ],
       }),
       npc2: new Person({
         x: withGrid(3),
@@ -36,7 +45,6 @@ export const SCENES = {
         src: Npc2,
         behaviorLoop: [
           { type: "walk", direction: "left" },
-          // { type: "stand", direction: "up", time: 800 },
           { type: "walk", direction: "up" },
           { type: "walk", direction: "right" },
           { type: "walk", direction: "down" },

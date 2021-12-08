@@ -25,4 +25,18 @@ const emitEvent = (name, detail) => {
   document.dispatchEvent(event);
 };
 
-export { withGrid, asGridCoord, nextPosition, emitEvent };
+const oppositeDirection = (direction) => {
+  if (direction === "left") {
+    return "right";
+  }
+  if (direction === "right") {
+    return "left";
+  }
+  if (direction === "up") {
+    return "down";
+  }
+
+  return "up";
+};
+
+export { withGrid, asGridCoord, nextPosition, emitEvent, oppositeDirection };
