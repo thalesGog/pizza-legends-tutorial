@@ -40,15 +40,15 @@ export const SCENES = {
         ],
       }),
       npc2: new Person({
-        x: withGrid(3),
-        y: withGrid(7),
+        x: withGrid(8),
+        y: withGrid(5),
         src: Npc2,
-        behaviorLoop: [
-          { type: "walk", direction: "left" },
-          { type: "walk", direction: "up" },
-          { type: "walk", direction: "right" },
-          { type: "walk", direction: "down" },
-        ],
+        //behaviorLoop: [
+        //  { type: "walk", direction: "left" },
+        //  { type: "walk", direction: "up" },
+        //  { type: "walk", direction: "right" },
+        //  { type: "walk", direction: "down" },
+        //],
       }),
     },
     walls: {
@@ -56,6 +56,20 @@ export const SCENES = {
       [asGridCoord(8, 6)]: true,
       [asGridCoord(7, 7)]: true,
       [asGridCoord(8, 7)]: true,
+    },
+    cutsceneSpaces: {
+      [asGridCoord(7, 4)]: [
+        {
+          events: [
+            { who: "npc2", type: "walk", direction: "left" },
+            { who: "npc2", type: "stand", direction: "up", time: 500 },
+            { type: "textMessage", text: "You can't be in there!" },
+            { who: "npc2", type: "walk", direction: "right" },
+            { who: "hero", type: "walk", direction: "down" },
+            { who: "hero", type: "walk", direction: "left" },
+          ],
+        },
+      ],
     },
   },
   Kitchen: {

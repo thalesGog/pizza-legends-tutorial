@@ -54,11 +54,22 @@ class Overworld {
     });
   }
 
+  bindHeroPositonCheck() {
+    document.addEventListener("PersonWalkingComplete", (e) => {
+      if(e.detail.whoId === "hero") {
+        // Hero's position has changed
+        this.map.checkForFootstepCutscene()
+      }
+    })
+  }
+
+
   init() {
     this.map = new OverWorldMap(SCENES.DemoRoom);
     this.map.mountObjects();
 
     this.bindActinInput();
+    this.bindHeroPositonCheck();
 
     this.directionInput = new DirectionInput();
     this.directionInput.init();

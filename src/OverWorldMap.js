@@ -4,6 +4,7 @@ import { nextPosition, withGrid } from "./utils";
 class OverWorldMap {
   constructor(config) {
     this.gameObjects = config.gameObjects;
+    this.cutsceneSpaces = config.cutsceneSpaces || {};
     this.walls = config.walls || {};
 
     this.lowerImage = new Image();
@@ -72,6 +73,14 @@ class OverWorldMap {
     });
     if (!this.isCutscenePlaying && match && match.talking.length) {
       this.startCutscene(match.talking[0].events);
+    }
+  }
+
+  checkForFootstepCutscene() {
+    const hero = this.gameObjects["hero"];
+    const match = this.cutsceneSpaces[`${hero.x},${hero.y}`];
+    if (!this.isCutscenePlaying && match) {
+      this.startCutscene(match[0].events);
     }
   }
 
