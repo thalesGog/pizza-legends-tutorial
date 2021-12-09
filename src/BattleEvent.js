@@ -1,6 +1,7 @@
 import SubmissionMenu from "./Battle/SubmissionMenu";
 import TextMessage from "./TextMessage";
 import { wait } from "./utils";
+import { spin } from "./BattleAnimations";
 
 class BattleEvent {
   constructor(event, battle) {
@@ -50,6 +51,10 @@ class BattleEvent {
       },
     });
     menu.init(this.battle.element);
+  }
+
+  animation(resolve) {
+    spin(this.event, resolve);
   }
 
   init(resolve) {
