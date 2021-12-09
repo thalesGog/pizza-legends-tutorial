@@ -4,6 +4,8 @@ import hero from "../images/characters/people/hero.png";
 import npc3 from "../images/characters/people/npc3.png";
 import Combatant from "./Combatant";
 import { Pizzas } from "../Content/pizzas";
+import TurnCycle from "../TurnCycle";
+import BattleEvent from "../BattleEvent";
 
 class Battle {
   constructor() {
@@ -74,6 +76,17 @@ class Battle {
       combatant.id = key;
       combatant.init(this.element);
     });
+
+    this.turnCycle = new TurnCycle({
+      battle: this,
+      onNewEvent: (event) => {
+        return new Promise((resolve) => {
+          const battleEvent = new BattleEvent(event, this);
+          battleEvent.init(resolve);
+        });
+      },
+    });
+    this.turnCycle.init();
   }
 }
 
