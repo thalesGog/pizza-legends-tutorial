@@ -39,4 +39,19 @@ const oppositeDirection = (direction) => {
   return "up";
 };
 
-export { withGrid, asGridCoord, nextPosition, emitEvent, oppositeDirection };
+const wait = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+};
+
+export {
+  withGrid,
+  asGridCoord,
+  nextPosition,
+  emitEvent,
+  oppositeDirection,
+  wait,
+};

@@ -20,18 +20,21 @@ const Pizzas = {
     type: PizzaTypes.spicy,
     src: s001,
     icon: spicy,
+    actions: ["damage1"],
   },
   v001: {
     name: "Call Me Kale",
     type: PizzaTypes.veggie,
     src: v001,
     icon: veggie,
+    actions: ["damage1"],
   },
   f001: {
     name: "Portobello Express",
     type: PizzaTypes.fungi,
     src: f001,
     icon: fungi,
+    actions: ["damage1"],
   },
 };
 
