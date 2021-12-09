@@ -1,4 +1,5 @@
 import { SCENES } from "./constants";
+import SceneTransition from "./SceneTransition";
 import TextMessage from "./TextMessage";
 import { oppositeDirection } from "./utils";
 
@@ -66,8 +67,12 @@ class OverWorldEvent {
   }
 
   changeMap(resolve) {
-    this.map.overworld.startMap(SCENES[this.event.map]);
-    resolve();
+    const sceneTransiton = new SceneTransition();
+    sceneTransiton.init(document.querySelector(".game-container"), () => {
+      this.map.overworld.startMap(SCENES[this.event.map]);
+      resolve();
+      sceneTransiton.fadeOut();
+    });
   }
 
   init() {
