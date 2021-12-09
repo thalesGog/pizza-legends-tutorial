@@ -1,8 +1,26 @@
 import OverWorldEvent from "./OverWorldEvent";
 import { nextPosition, withGrid } from "./utils";
 
+export interface Config {
+  overworld: any;
+  gameObjects: any;
+  cutsceneSpaces: any;
+  walls: any;
+  lowerImage: HTMLImageElement;
+  upperImage: HTMLImageElement;
+  lowerSrc: string;
+  upperSrc: string;
+}
+
 class OverWorldMap {
-  constructor(config) {
+  overworld: any;
+  gameObjects: any;
+  cutsceneSpaces: any;
+  walls: any;
+  lowerImage: HTMLImageElement;
+  upperImage: HTMLImageElement;
+  isCutscenePlaying: boolean;
+  constructor(config: Config) {
     this.overworld = null;
     this.gameObjects = config.gameObjects;
     this.cutsceneSpaces = config.cutsceneSpaces || {};
@@ -17,7 +35,7 @@ class OverWorldMap {
     this.isCutscenePlaying = false;
   }
 
-  drawLowerImage(ctx, cameraPerson) {
+  drawLowerImage(ctx: CanvasRenderingContext2D, cameraPerson: any) {
     ctx.drawImage(
       this.lowerImage,
       withGrid(10.5) - cameraPerson.x,
@@ -25,7 +43,7 @@ class OverWorldMap {
     );
   }
 
-  drawUpperImage(ctx, cameraPerson) {
+  drawUpperImage(ctx: CanvasRenderingContext2D, cameraPerson: any) {
     ctx.drawImage(
       this.upperImage,
       withGrid(10.5) - cameraPerson.x,
@@ -33,7 +51,7 @@ class OverWorldMap {
     );
   }
 
-  isSpaceTaken(currentX, currentY, direction) {
+  isSpaceTaken(currentX: number, currentY: number, direction: string) {
     const { x, y } = nextPosition(currentX, currentY, direction);
     return this.walls[`${x},${y}`] || false;
   }
@@ -48,7 +66,7 @@ class OverWorldMap {
     });
   }
 
-  async startCutscene(events) {
+  async startCutscene(events: any) {
     this.isCutscenePlaying = true;
     // Start a loop of async events and await each one
     for (let i = 0; i < events.length; i++) {
@@ -61,15 +79,15 @@ class OverWorldMap {
     this.isCutscenePlaying = false;
 
     // Reset NPC's to do their idle behavior
-    Object.values(this.gameObjects).forEach((object) =>
+    Object.values(this.gameObjects).forEach((object: any) =>
       object.doBehaviorEvent(this)
     );
   }
 
   checkForActionCutscene() {
-    const hero = this.gameObjects["hero"];
+    const hero = this.gameObjects.hero;
     const nextCoords = nextPosition(hero.x, hero.y, hero.direction);
-    const match = Object.values(this.gameObjects).find((object) => {
+    const match: any = Object.values(this.gameObjects).find((object: any) => {
       return `${object.x},${object.y}` === `${nextCoords.x},${nextCoords.y}`;
     });
     if (!this.isCutscenePlaying && match && match.talking.length) {
@@ -85,13 +103,13 @@ class OverWorldMap {
     }
   }
 
-  addWall(x, y) {
+  addWall(x: number, y: number) {
     this.walls[`${x},${y}`] = true;
   }
-  removeWall(x, y) {
+  removeWall(x: number, y: number) {
     delete this.walls[`${x},${y}`];
   }
-  moveWall(wasX, wasY, direction) {
+  moveWall(wasX: number, wasY: number, direction: string) {
     this.removeWall(wasX, wasY);
     const { x, y } = nextPosition(wasX, wasY, direction);
     this.addWall(x, y);

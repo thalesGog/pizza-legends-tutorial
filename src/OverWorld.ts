@@ -2,13 +2,27 @@ import { SCENES } from "./constants";
 import DirectionInput from "./DirectionInput";
 import KeyPressListener from "./KeyPressListener";
 import OverWorldMap from "./OverWorldMap";
+import Person from "./Person";
+
+interface Config {
+  element: HTMLElement;
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  map: OverWorldMap;
+}
 
 class Overworld {
-  constructor(config) {
+  element: HTMLElement;
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  map: OverWorldMap;
+  directionInput: DirectionInput;
+  constructor(config: Config) {
     this.element = config.element;
     this.canvas = this.element.querySelector(".game-canvas");
     this.ctx = this.canvas.getContext("2d");
     this.map = null;
+    this.directionInput = null;
   }
 
   startGameLoop() {
@@ -20,7 +34,7 @@ class Overworld {
       const cameraPerson = this.map.gameObjects.hero;
 
       // Update all objects
-      Object.values(this.map.gameObjects).forEach((object) => {
+      Object.values(this.map.gameObjects).forEach((object: Person) => {
         object.update({
           arrow: this.directionInput.direction,
           map: this.map,
@@ -32,8 +46,8 @@ class Overworld {
 
       // Draw Game Objects
       Object.values(this.map.gameObjects)
-        .sort((a, b) => a.y - b.y)
-        .forEach((object) => {
+        .sort((a: any, b: any) => a.y - b.y)
+        .forEach((object: Person) => {
           object.sprite.draw(this.ctx, cameraPerson);
         });
 
@@ -55,7 +69,7 @@ class Overworld {
   }
 
   bindHeroPositonCheck() {
-    document.addEventListener("PersonWalkingComplete", (e) => {
+    document.addEventListener("PersonWalkingComplete", (e: any) => {
       if (e.detail.whoId === "hero") {
         // Hero's position has changed
         this.map.checkForFootstepCutscene();
@@ -63,7 +77,7 @@ class Overworld {
     });
   }
 
-  startMap(mapConfig) {
+  startMap(mapConfig: any) {
     this.map = new OverWorldMap(mapConfig);
     this.map.overworld = this;
     this.map.mountObjects();

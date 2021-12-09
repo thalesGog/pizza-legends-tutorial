@@ -1,24 +1,52 @@
 import Sprite from "./Sprite";
-import hero from "./images/characters/people/hero.png";
+import heroSprite from "./images/characters/people/hero.png";
 import OverWorldEvent from "./OverWorldEvent";
+import OverWorldMap from "./OverWorldMap";
+
+interface Config {
+  id: string;
+  isMounted: boolean;
+  x: number;
+  y: number;
+  direction: string;
+  sprite: any;
+  behaviorLoop: any;
+  behaviorLoopIndex: number;
+  talking: any;
+  isStanding: boolean;
+  src: string;
+}
 
 class GameObject {
-  constructor(config) {
+  id: string;
+  isMounted: boolean;
+  x: number;
+  y: number;
+  direction: string;
+  sprite: any;
+  behaviorLoop: any;
+  behaviorLoopIndex: number;
+  talking: any;
+  isStanding: boolean;
+  src: string;
+  constructor(config: Config) {
+    this.id = null;
     this.isMounted = false;
     this.x = config.x || 0;
     this.y = config.y || 0;
     this.direction = config.direction || "down";
     this.sprite = new Sprite({
       gameObject: this,
-      src: config.src || hero,
+      src: config.src || heroSprite,
     });
     this.behaviorLoop = config.behaviorLoop || [];
     this.behaviorLoopIndex = 0;
 
     this.talking = config.talking || [];
+    this.isStanding = false;
   }
 
-  mount(map) {
+  mount(map: OverWorldMap) {
     this.isMounted = true;
     map.addWall(this.x, this.y);
 
@@ -30,7 +58,7 @@ class GameObject {
 
   update() {}
 
-  async doBehaviorEvent(map) {
+  async doBehaviorEvent(map: OverWorldMap) {
     // Don't do anything if there is a more important cutscene or I don't have config to do anything
     if (
       map.isCutscenePlaying ||
