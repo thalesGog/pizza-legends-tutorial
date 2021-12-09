@@ -1,3 +1,4 @@
+import Battle from "./Battle/Battle";
 import { SCENES } from "./constants";
 import SceneTransition from "./SceneTransition";
 import TextMessage from "./TextMessage";
@@ -73,6 +74,15 @@ class OverWorldEvent {
       resolve();
       sceneTransiton.fadeOut();
     });
+  }
+
+  battle(resolve) {
+    const battle = new Battle({
+      onComplete: () => {
+        resolve();
+      },
+    });
+    battle.init(document.querySelector(".game-container"));
   }
 
   init() {
